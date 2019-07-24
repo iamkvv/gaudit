@@ -14,11 +14,11 @@ namespace Gaudit
 {
     public partial class GilFondObjects : Form
     {
-        DataSet1 ds;
+        //DataSet1 ds;
         GilFondObjectTableAdapter gfObjectsAdapter;
         PorchGilFondОbjectsTableAdapter porchAdapter;
         PomeschGilFondОbsTableAdapter pomeschAdapter;
-
+        NeGiloePomeschTableAdapter neGiloeAdapter;
 
         private int currObjID = 0; //Текущий дом 
         private int currPorchID = 0;//Текущий подъезд
@@ -27,11 +27,12 @@ namespace Gaudit
         {
             InitializeComponent();
 
-            ds = new DataSet1();
+           // ds = new DataSet1();
 
             gfObjectsAdapter = new GilFondObjectTableAdapter();
             porchAdapter = new PorchGilFondОbjectsTableAdapter();
             pomeschAdapter = new PomeschGilFondОbsTableAdapter();
+            neGiloeAdapter = new NeGiloePomeschTableAdapter();
         }
 
         private void btnGetSave_Click(object sender, EventArgs e)
@@ -82,67 +83,100 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+
+                ActiveAudit.CheckGrid(grdGFObjects);
             }
         }
 
         private void GilFondObjects_Load(object sender, EventArgs e)
         {
-            gfObjectsAdapter.FillByActiveAudit(ds.GilFondObject, ActiveAudit.ID, ActiveAudit.ID_Company);
-            grdGFObjects.DataSource = gfObjectsAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+            try
+            {
+                grdGFObjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                grdPorch.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                grdPomesch.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                grdNegil.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 
-            porchAdapter.FillBySelectObject(ds.PorchGilFondОbjects,  this.currObjID);
-            grdPorch.DataSource = porchAdapter.GetDataBySelectObject(this.currPorchID);
+                // gfObjectsAdapter.FillByActiveAudit(ds.GilFondObject, ActiveAudit.ID, ActiveAudit.ID_Company);
+                grdGFObjects.DataSource = gfObjectsAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+                //  porchAdapter.FillBySelectObject(ds.PorchGilFondОbjects, this.currObjID);
+                grdPorch.DataSource = porchAdapter.GetDataBySelectObject(this.currPorchID);
+                // pomeschAdapter.FillBySelectedPorch(ds.PomeschGilFondОbs, currPorchID);
+                grdPomesch.DataSource = pomeschAdapter.GetDataBySelectedPorch(this.currPorchID);
+                grdNegil.DataSource = neGiloeAdapter.GetDataByActiveObject(this.currObjID);
 
-            pomeschAdapter.FillBySelectedPorch(ds.PomeschGilFondОbs, currPorchID);
-            grdPomesch.DataSource = pomeschAdapter.GetDataBySelectedPorch(this.currPorchID);
+                ActiveAudit.CheckGrid(grdGFObjects);
+                ActiveAudit.CheckGrid(grdPorch);
+                ActiveAudit.CheckGrid(grdPomesch);
+                ActiveAudit.CheckGrid(grdNegil);
 
-            grdGFObjects.Columns[0].Visible = false;
-            grdGFObjects.Columns[1].Visible = false;
-            grdGFObjects.Columns[2].Visible = false;
+                grdGFObjects.Columns[0].Visible = false;
+                grdGFObjects.Columns[1].Visible = false;
+                grdGFObjects.Columns[2].Visible = false;
 
-            //foreach(DataGridView  dc in grdGFObjects.Columns)
-            //{
-            //    dc.Width = grdGFObjects.Width / 11;
-            //}
+                grdGFObjects.Columns[3].Width = grdGFObjects.Width / 12;
+                grdGFObjects.Columns[4].Width = grdGFObjects.Width / 12;
+                grdGFObjects.Columns[5].Width = grdGFObjects.Width / 11;
+                grdGFObjects.Columns[6].Width = grdGFObjects.Width / 11;
+                grdGFObjects.Columns[7].Width = grdGFObjects.Width / 11;
 
-            grdGFObjects.Columns[3].Width = grdGFObjects.Width / 12;
-            grdGFObjects.Columns[4].Width = grdGFObjects.Width / 12;
-            grdGFObjects.Columns[5].Width = grdGFObjects.Width / 11;
-            grdGFObjects.Columns[6].Width = grdGFObjects.Width / 11;
-            grdGFObjects.Columns[7].Width = grdGFObjects.Width / 11;
+                grdGFObjects.Columns[8].Width = grdGFObjects.Width / 12;
+                grdGFObjects.Columns[9].Width = grdGFObjects.Width / 12;
+                grdGFObjects.Columns[10].Width = grdGFObjects.Width / 11;
+                grdGFObjects.Columns[11].Width = grdGFObjects.Width / 11;
+                grdGFObjects.Columns[12].Width = grdGFObjects.Width / 11;
+                grdGFObjects.Columns[13].Width = grdGFObjects.Width / 11;
 
-            grdGFObjects.Columns[8].Width = grdGFObjects.Width / 12;
-            grdGFObjects.Columns[9].Width = grdGFObjects.Width / 12;
-            grdGFObjects.Columns[10].Width = grdGFObjects.Width / 11;
-            grdGFObjects.Columns[11].Width = grdGFObjects.Width / 11;
-            grdGFObjects.Columns[12].Width = grdGFObjects.Width / 11;
-            grdGFObjects.Columns[13].Width = grdGFObjects.Width / 11;
+                grdPorch.Columns[0].Visible = false;
+                grdPorch.Columns[1].Visible = false;
+                grdPorch.Columns[2].Visible = false;
+                grdPorch.Columns[3].Visible = false;
 
-            grdPorch.Columns[0].Visible = false;
-            grdPorch.Columns[1].Visible = false;
-            grdPorch.Columns[2].Visible = false;
-            grdPorch.Columns[3].Visible = false;
-
-            grdPorch.Columns[4].Width = grdPorch.Width / 5;
-            grdPorch.Columns[5].Width = grdPorch.Width / 4;
-            grdPorch.Columns[6].Width = grdPorch.Width / 4;
-            grdPorch.Columns[7].Width = grdPorch.Width / 4;
+                grdPorch.Columns[4].Width = grdPorch.Width / 5;
+                grdPorch.Columns[5].Width = grdPorch.Width / 4;
+                grdPorch.Columns[6].Width = grdPorch.Width / 4;
+                grdPorch.Columns[7].Width = grdPorch.Width / 4;
 
 
-            grdPomesch.Columns[0].Visible = false;
-            grdPomesch.Columns[1].Visible = false;
-            grdPomesch.Columns[2].Visible = false;
-            grdPomesch.Columns[3].Visible = false;
+                grdPomesch.Columns[0].Visible = false;
+                grdPomesch.Columns[1].Visible = false;
+                grdPomesch.Columns[2].Visible = false;
+                grdPomesch.Columns[3].Visible = false;
 
-            grdPomesch.Columns[4].Width = grdPomesch.Width / 10;
-            grdPomesch.Columns[5].Width = grdPomesch.Width / 7;
-            grdPomesch.Columns[6].Width = grdPomesch.Width / 7;
-            grdPomesch.Columns[7].Width = grdPomesch.Width / 7;
-            grdPomesch.Columns[8].Width = grdPomesch.Width / 7;
-            grdPomesch.Columns[9].Width = grdPomesch.Width / 7;
-            grdPomesch.Columns[10].Width = grdPomesch.Width / 7;
+                grdPomesch.Columns[4].Width = grdPomesch.Width / 10;
+                grdPomesch.Columns[5].Width = grdPomesch.Width / 7;
+                grdPomesch.Columns[6].Width = grdPomesch.Width / 7;
+                grdPomesch.Columns[7].Width = grdPomesch.Width / 7;
+                grdPomesch.Columns[8].Width = grdPomesch.Width / 7;
+                grdPomesch.Columns[9].Width = grdPomesch.Width / 7;
+                grdPomesch.Columns[10].Width = grdPomesch.Width / 7;
+
+
+                grdNegil.Columns[0].Visible = false;
+                grdNegil.Columns[1].Visible = false;
+                grdNegil.Columns[2].Visible = false;
+                grdNegil.Columns[3].Visible = false;
+
+                grdNegil.Columns[4].Width = grdNegil.Width / 6;
+                grdNegil.Columns[5].Width = grdNegil.Width / 6;
+                grdNegil.Columns[6].Width = grdNegil.Width / 6;
+                grdNegil.Columns[7].Width = grdNegil.Width / 6;
+                grdNegil.Columns[8].Width = grdNegil.Width / 6;
+                grdNegil.Columns[9].Width = grdNegil.Width / 6;
+
+                grdGFObjects.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                grdPorch.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                grdPomesch.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                grdNegil.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
-   
+
 
         private void btnGetPorch_Click(object sender, EventArgs e)
         {//данные подъездов
@@ -187,6 +221,8 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+
+                ActiveAudit.CheckGrid(grdPorch);
             }
         }
 
@@ -194,6 +230,10 @@ namespace Gaudit
         {
             grdPorch.DataSource = porchAdapter.GetDataBySelectObject(this.currObjID);
             grdPomesch.DataSource = pomeschAdapter.GetDataBySelectedPorch(this.currPorchID);
+
+            ActiveAudit.CheckGrid(grdPorch);
+            ActiveAudit.CheckGrid(grdPomesch);
+
         }
 
         private void grdGFObjects_SelectionChanged(object sender, EventArgs e)
@@ -202,7 +242,27 @@ namespace Gaudit
             {
                 this.currObjID = (int)grdGFObjects.CurrentRow.Cells[0].Value;
                 lblCurrObjID.Text = this.currObjID.ToString();
-                grdPorch.DataSource = porchAdapter.GetDataBySelectObject(this.currPorchID);
+
+                DataTable dt = porchAdapter.GetDataBySelectObject(this.currObjID);
+
+                grdPorch.DataSource = dt; //   porchAdapter.GetDataBySelectObject(this.currObjID);
+
+                if(grdPorch.CurrentRow == null)
+                {
+                    this.currPorchID = 0;
+                }
+                else
+                {
+                    this.currPorchID = (int)grdPorch.CurrentRow.Cells[0].Value;
+                }
+
+                
+                grdPomesch.DataSource = pomeschAdapter.GetDataBySelectedPorch(this.currPorchID);
+
+                grdNegil.DataSource = neGiloeAdapter.GetDataByActiveObject(this.currObjID);
+
+                ActiveAudit.CheckGrid(grdPorch);
+                ActiveAudit.CheckGrid(grdNegil);
             }
         }
 
@@ -214,6 +274,11 @@ namespace Gaudit
                 lblCurrPorch.Text = this.currPorchID.ToString();
 
                 grdPomesch.DataSource = pomeschAdapter.GetDataBySelectedPorch(this.currPorchID);
+                ActiveAudit.CheckGrid(grdPomesch);
+            }
+            else
+            {
+                Console.WriteLine(this.currPorchID);
             }
         }
 
@@ -268,9 +333,8 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdPomesch);
             }
-
-
         }
 
         private void btnDeletePorch_Click(object sender, EventArgs e)
@@ -288,16 +352,81 @@ namespace Gaudit
                     lblCurrPorch.Text = this.currPorchID.ToString();
 
                     grdPorch.DataSource = porchAdapter.GetDataBySelectObject(this.currObjID);
+
+                    if (grdPorch.RowCount == 0)
+                    {
+                        this.currPorchID = 0; //чтобы обнулить помещения
+                    }
+
                     grdPomesch.DataSource = pomeschAdapter.GetDataBySelectedPorch(this.currPorchID);
+
+                    ActiveAudit.CheckGrid(grdPorch);
+                    ActiveAudit.CheckGrid(grdPomesch);
                 }
-
-
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void btnNegilAdd_Click(object sender, EventArgs e)
         {
 
+            Cursor.Current = Cursors.WaitCursor;
+            try
+            {
+                string[] clparr = ActiveAudit.GetClipBoard("nonResidential=yes");
+                if (clparr == null) return;
+                if (clparr.Count() % 7 != 0)
+                {
+                    MessageBox.Show("Данные нежилых помещений скопированы некорректно.");
+                    return;
+                }
+
+                int skip = 0;
+                string[] arr;
+
+                while ((arr = clparr.Skip(skip).Take(7).ToArray()).Count() != 0)
+                {
+                    skip += 7;
+
+                    neGiloeAdapter.Insert(
+                        this.currObjID,
+                        ActiveAudit.ID,
+                        ActiveAudit.ID_Company,
+                        arr[0],
+                        arr[1].Split('\t')[1],
+                        arr[2].Split('\t')[1],
+                        arr[3].Split('\t')[1],
+                        arr[4].Split('\t')[1],
+                        arr[6].Split('\t')[1]
+                        );
+                }
+
+                grdNegil.DataSource = neGiloeAdapter.GetDataByActiveObject(this.currObjID);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+                Clipboard.Clear();
+
+                ActiveAudit.CheckGrid(grdNegil);
+            }
+        }
+
+        private void btnNegilDelete_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Удалить данные нежилых помещений?",
+                                   "Нежилые помещения",
+                                    MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                neGiloeAdapter.DeleteByActiveObject(this.currObjID);
+                grdNegil.DataSource = neGiloeAdapter.GetDataByActiveObject(this.currObjID);
+                
+                ActiveAudit.CheckGrid(grdNegil);
+            }
         }
     }
 }

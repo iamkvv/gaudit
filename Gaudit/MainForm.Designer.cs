@@ -64,7 +64,7 @@
             this.справочникиToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1238, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1499, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -213,9 +213,9 @@
             this.stsMainStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.stsMainStrip.Location = new System.Drawing.Point(0, 688);
+            this.stsMainStrip.Location = new System.Drawing.Point(0, 768);
             this.stsMainStrip.Name = "stsMainStrip";
-            this.stsMainStrip.Size = new System.Drawing.Size(1238, 40);
+            this.stsMainStrip.Size = new System.Drawing.Size(1499, 40);
             this.stsMainStrip.TabIndex = 2;
             this.stsMainStrip.Text = "statusStrip1";
             // 
@@ -236,7 +236,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1238, 728);
+            this.ClientSize = new System.Drawing.Size(1499, 808);
             this.Controls.Add(this.stsMainStrip);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

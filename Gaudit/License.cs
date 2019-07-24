@@ -62,12 +62,13 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdLicense);
             }
         }
 
         private void License_Load(object sender, EventArgs e)
         {
-            licenseAdapter.FillByActiveAudit(ds.License, ActiveAudit.ID, ActiveAudit.ID_Company);
+            //licenseAdapter.FillByActiveAudit(ds.License, ActiveAudit.ID, ActiveAudit.ID_Company);
             grdLicense.DataSource = licenseAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
 
 
@@ -77,8 +78,11 @@ namespace Gaudit
                  currID = (int)grdLicense.CurrentRow.Cells[0].Value;
             }
 
-            licenseHousesAdapter.FillByCurrentLicense(ds.LicenseHouses, currID, ActiveAudit.ID, ActiveAudit.ID_Company);
+            //licenseHousesAdapter.FillByCurrentLicense(ds.LicenseHouses, currID, ActiveAudit.ID, ActiveAudit.ID_Company);
             grdLicHouses.DataSource = licenseHousesAdapter.GetDataByCurrentLicense(currID, ActiveAudit.ID, ActiveAudit.ID_Company);
+
+            ActiveAudit.CheckGrid(grdLicense);
+            ActiveAudit.CheckGrid(grdLicHouses);
 
             grdLicense.Columns[0].Visible = false;
             grdLicense.Columns[1].Visible = false;
@@ -120,6 +124,9 @@ namespace Gaudit
                 grdLicense.DataSource = licenseAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
 
                 grdLicHouses.DataSource = licenseHousesAdapter.GetDataByCurrentLicense(currID, ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                ActiveAudit.CheckGrid(grdLicense);
+                ActiveAudit.CheckGrid(grdLicHouses);
             }
         }
 
@@ -161,6 +168,7 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdLicHouses);
             }
         }
 

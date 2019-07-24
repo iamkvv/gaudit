@@ -93,10 +93,10 @@ namespace Gaudit
                     }
                 }
 
-
-                platDocsAdapter.FillByActiveAudit(ds.PlatDocs, ActiveAudit.ID, ActiveAudit.ID_Company); //??
+              //  platDocsAdapter.FillByActiveAudit(ds.PlatDocs, ActiveAudit.ID, ActiveAudit.ID_Company); //??
                 grdPlatDocs.DataSource = platDocsAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
 
+                ActiveAudit.CheckGrid(grdPlatDocs);
             }
             catch (Exception ex)
             {
@@ -106,6 +106,7 @@ namespace Gaudit
             {
                 Cursor.Current = Cursors.Default;
                 Clipboard.Clear();
+                ActiveAudit.CheckGrid(grdPlatDocs);
             }
         }
 
@@ -119,14 +120,17 @@ namespace Gaudit
 
                 platDocsAdapter.DeleteByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
                 grdPlatDocs.DataSource = platDocsAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                ActiveAudit.CheckGrid(grdPlatDocs);
             }
         }
 
 
         private void PlatDocs_Load(object sender, EventArgs e)
         {
-            platDocsAdapter.FillByActiveAudit(ds.PlatDocs, ActiveAudit.ID, ActiveAudit.ID_Company);
+            //platDocsAdapter.FillByActiveAudit(ds.PlatDocs, ActiveAudit.ID, ActiveAudit.ID_Company);
             grdPlatDocs.DataSource = platDocsAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+            ActiveAudit.CheckGrid(grdPlatDocs);
 
             grdPlatDocs.Columns[0].Visible = false;
             grdPlatDocs.Columns[1].Visible = false;

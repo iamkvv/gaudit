@@ -83,6 +83,8 @@ namespace Gaudit
                     }
 
                     grdPribors.DataSource = priborAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+
                 }
             }
             catch (Exception ex)
@@ -91,14 +93,18 @@ namespace Gaudit
             }
             finally
             {
+                Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdPribors);
             }
         }
 
         private void Pribors_Load(object sender, EventArgs e)
         {
-            priborAdapter.FillByActiveAudit(ds.Pribor, ActiveAudit.ID, ActiveAudit.ID_Company);
+            //priborAdapter.FillByActiveAudit(ds.Pribor, ActiveAudit.ID, ActiveAudit.ID_Company);
             grdPribors.DataSource = priborAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+            ActiveAudit.CheckGrid(grdPribors);
 
             grdPribors.Columns[0].Visible = false;
             grdPribors.Columns[1].Visible = false;
@@ -129,8 +135,10 @@ namespace Gaudit
                 {
                     priborAdapter.DeleteCurrents(ActiveAudit.ID, ActiveAudit.ID_Company);
 
-                    priborAdapter.FillByActiveAudit(ds.Pribor, ActiveAudit.ID, ActiveAudit.ID_Company);
+                    //priborAdapter.FillByActiveAudit(ds.Pribor, ActiveAudit.ID, ActiveAudit.ID_Company);
                     grdPribors.DataSource = priborAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                    ActiveAudit.CheckGrid(grdPribors);
                 }
             }
         }

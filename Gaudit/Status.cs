@@ -82,6 +82,21 @@ namespace Gaudit
         }
 
 
+        public static void CheckGrid(DataGridView grd)
+        {
+            if (grd.RowCount == 0)
+            {
+                grd.BackgroundColor = System.Drawing.Color.DarkOrange;
+            }
+            else
+            {
+                grd.BackgroundColor = System.Drawing.Color.FromArgb(255, 171, 171, 171);//;
+            }
+        }
+
+
+
+
         public static string[]  GetClipBoard(string adr)
         {
             IDataObject iData = Clipboard.GetDataObject();

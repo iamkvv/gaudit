@@ -112,6 +112,8 @@ namespace Gaudit
                 grdElHouse.DataSource = elh;
 
 
+                //ds.Tables[2].LoadDataRow(new object[44],true);//    .Select("").Count()
+
                 //параметры дома
                 //string[] houseparams = cliparr.Where( s=> rgx1.IsMatch(s,0) || rgx1.IsMatch(s,1)).ToArray<string>() ;
 
@@ -208,6 +210,7 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdElHouse);
             }
         }
 
@@ -259,7 +262,7 @@ namespace Gaudit
 
 
                     int currPorchId = 0;
-                    if(grdPorch.CurrentRow !=null)
+                    if (grdPorch.CurrentRow != null)
                     {
                         currPorchId = (int)grdPorch.CurrentRow.Cells[0].Value;
                     }
@@ -300,12 +303,14 @@ namespace Gaudit
         }
 
 
+        
         private void PassportMKD_Load(object sender, EventArgs e)
         {
             try
             {
-                elHouseAdapter.FillByActiveAudit(ds.ElHouse, ActiveAudit.ID, ActiveAudit.ID_Company);
                 grdElHouse.DataSource = elHouseAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                ActiveAudit.CheckGrid(grdElHouse);
 
                 int currID = 0;
                 if (grdElHouse.CurrentRow != null)
@@ -522,7 +527,7 @@ namespace Gaudit
         {
             //    ^(?<=)\d{1,2}\.
 
-         
+
         }
 
         private void grdParams_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -549,10 +554,10 @@ namespace Gaudit
             //FormTest frm = new FormTest();
             //frm.Show();
 
-           // elHouseAdapter.FillByActiveAudit(ds.ElHouse, ActiveAudit.ID, ActiveAudit.ID_Company);
+            // elHouseAdapter.FillByActiveAudit(ds.ElHouse, ActiveAudit.ID, ActiveAudit.ID_Company);
             //elHouseAdapter.FillByActiveAudit((DataSet1.ElHouseDataTable)ds.ElHouse, ActiveAudit.ID, ActiveAudit.ID_Company);
 
-          
+
             /* !!!
 
             elHouseParamAdapter.Fill(ds.ElHouseParams);//!!!необходимо   FillByCurrentHouse(ds.ElHouseParams, ActiveAudit.ID, ActiveAudit.ID_Company,)
@@ -586,4 +591,3 @@ namespace Gaudit
         }
     }
 }
- 

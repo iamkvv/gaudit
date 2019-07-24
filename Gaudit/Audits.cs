@@ -170,7 +170,6 @@ namespace Gaudit
         private void btnStartAudit_Click(object sender, EventArgs e)
         {//фиксируем активный аудит
 
-
             if (dataSet1.Audit.Rows[grdSelectAudit.CurrentRow.Index] != null)
             {
                 DataSet1.AuditRow curraud = ((DataSet1.AuditRow)dataSet1.Audit.Rows[grdSelectAudit.CurrentRow.Index]);
@@ -238,32 +237,8 @@ namespace Gaudit
                 DataSet1.PriborRow[] priborArr = ds.Pribor.ToArray();
 
                 /////////////////
-                //repElHouses.Clear();
 
                 repGFObj.Clear();
-
-                /* эл паспорт отменен
-                Regex rgx = new Regex(@"^(?<=)\d{1,2}\.\s");   //@"^(?<=)\d{1,2}\.\s|^(?<=)\d{1,2}\.\d{1,2}\.");   //<-так точнее //^(?<=)\d{1,2}\.\s
-                foreach (DataSet1.ElHouseRow rowHouse in ds.ElHouse.Rows)
-                {
-                    DataSet1.ElHouseParamsRow[] paramsArr = (DataSet1.ElHouseParamsRow[])rowHouse.GetChildRows("ElHouseElHouseParams");
-                    DataSet1.ElHouseParamsRow[] fltArr = (DataSet1.ElHouseParamsRow[])paramsArr.Where(p => !rgx.IsMatch(p.Param)).ToArray(); //отрезаем типа "3. "
-
-                    fltArr = (DataSet1.ElHouseParamsRow[])paramsArr.Where(p => !p.Param.Contains("в том числе")).ToArray(); //и в том числе
-
-                    int qemptyPars = fltArr.Where(p => p.ParamValue != "").Count();
-
-                    repElHouses.Add(new repElHouse
-                    {
-                        ID = rowHouse.ID_ElHouse,
-                        Address = rowHouse.Адрес_дома,
-                        quantParams = fltArr.Count(),
-                        quantFilledParams = qemptyPars,
-                        quantFlats = rowHouse.Количество_квартир == "" ? 0 : Convert.ToInt32(rowHouse.Количество_квартир),
-                        quantNoFlats = rowHouse.Нежилых_помещений == "" ? 0 : Convert.ToInt32(rowHouse.Нежилых_помещений)
-                    });
-                }
-                */
 
                 DataSet1.LicenseRow LicenseCompany = null;
                 if (ds.License.Rows.Count > 0)

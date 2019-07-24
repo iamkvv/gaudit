@@ -17,6 +17,7 @@ namespace Gaudit
         DataSet1 ds;
         DogUpravlTableAdapter dogUpravlAdapter;
         DogUprUslugiTableAdapter dogUprUslAdapter;
+        DogUprFilesTableAdapter dogUprFilesAdapter;
 
         int currDogID = 0;
 
@@ -27,6 +28,8 @@ namespace Gaudit
             ds = new DataSet1();
             dogUpravlAdapter = new DogUpravlTableAdapter();
             dogUprUslAdapter = new DogUprUslugiTableAdapter();
+            dogUprFilesAdapter = new DogUprFilesTableAdapter();
+
         }
 
         private void btnClipBoard_Click(object sender, EventArgs e)
@@ -44,7 +47,7 @@ namespace Gaudit
                 string[] z;
                 //string[] data = cliparr.Skip(0).ToArray();
 
-               string[] data = cliparr.Where(s => !s.Contains("Срок действия договора истекает")).ToArray(); 
+                string[] data = cliparr.Where(s => !s.Contains("Срок действия договора истекает")).ToArray();
 
 
                 while ((z = data.Skip(skip).Take(13).ToArray()).Count() != 0)
@@ -60,7 +63,7 @@ namespace Gaudit
                         z[2].Split('\t')[1], // закл
                         z[3].Split('\t')[1], // вступ
                         z[4].Split('\t')[1], // срок
-                        z[5].Split('\t').Length == 2  ?  z[5].Split('\t')[1] : "", //статус
+                        z[5].Split('\t').Length == 2 ? z[5].Split('\t')[1] : "", //статус
                         z[6].Split('\t')[1], //версия
                         z[7].Split('\t')[1], //основание
                         z[8].Split('\t')[1], // первая
@@ -74,12 +77,14 @@ namespace Gaudit
             }
             catch (Exception ex)
             {
-                MessageBox.Show(cnt.ToString() +" -- "+  ex.Message);
+                MessageBox.Show(cnt.ToString() + " -- " + ex.Message);
             }
             finally
             {
                 Cursor.Current = Cursors.Default;
                 Clipboard.Clear();
+
+                ActiveAudit.CheckGrid(grdDogUpravl);
             }
 
         }
@@ -90,7 +95,14 @@ namespace Gaudit
             dogUprUslAdapter.FillByDogovor(ds.DogUprUslugi, ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
 
             grdDogUpravl.DataSource = dogUpravlAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
-            grdUslugi.DataSource = dogUprUslAdapter.GetDataByDogovor( ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
+            grdUslugi.DataSource = dogUprUslAdapter.GetDataByDogovor(ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
+            grdFiles.DataSource = dogUprFilesAdapter.GetDataByActiveDog(ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
+
+            ActiveAudit.CheckGrid(grdDogUpravl);
+            ActiveAudit.CheckGrid(grdUslugi);
+            ActiveAudit.CheckGrid(grdFiles);
+
+
 
             lblCurrDogovor.Text = this.currDogID.ToString();
 
@@ -119,6 +131,15 @@ namespace Gaudit
             grdUslugi.Columns[4].Width = grdUslugi.Width / 3;
             grdUslugi.Columns[5].Width = grdUslugi.Width / 4;
             grdUslugi.Columns[6].Width = grdUslugi.Width / 3;
+
+
+            grdFiles.Columns[0].Visible = false;
+            grdFiles.Columns[1].Visible = false;
+            grdFiles.Columns[2].Visible = false;
+            grdFiles.Columns[3].Visible = false;
+
+            grdFiles.Columns[4].Width = grdFiles.Width / 2;
+            grdFiles.Columns[5].Width = grdFiles.Width / 2;
         }
 
 
@@ -130,8 +151,11 @@ namespace Gaudit
                 lblCurrDogovor.Text = this.currDogID.ToString();
 
                 grdUslugi.DataSource = dogUprUslAdapter.GetDataByDogovor(ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
-
+                grdFiles.DataSource = dogUprFilesAdapter.GetDataByActiveDog(ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
             }
+
+            ActiveAudit.CheckGrid(grdUslugi);
+            ActiveAudit.CheckGrid(grdFiles);
         }
 
         private void btnPerech_Click(object sender, EventArgs e)
@@ -148,7 +172,7 @@ namespace Gaudit
                 !s.Contains("Дополнительные услуги") && !s.Contains("Услуги отсутствуют") &&
                 !s.Contains("Наименование")).ToArray();
 
-                if(data.Count() % 3 != 0)
+                if (data.Count() % 3 != 0)
                 {
                     MessageBox.Show("Похоже, данные скопированы некорректно");
                     return;
@@ -181,6 +205,7 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdUslugi);
             }
         }
 
@@ -193,10 +218,15 @@ namespace Gaudit
                 dogUpravlAdapter.DeleteByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
 
                 dogUpravlAdapter.FillByActiveAudit(ds.DogUpravl, ActiveAudit.ID, ActiveAudit.ID_Company); //??
-                dogUprUslAdapter.FillByDogovor(ds.DogUprUslugi,  ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID );
+                dogUprUslAdapter.FillByDogovor(ds.DogUprUslugi, ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
 
                 grdDogUpravl.DataSource = dogUpravlAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
-                grdUslugi.DataSource = dogUprUslAdapter.GetDataByDogovor( ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID); 
+                grdUslugi.DataSource = dogUprUslAdapter.GetDataByDogovor(ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
+
+
+                ActiveAudit.CheckGrid(grdDogUpravl);
+                ActiveAudit.CheckGrid(grdUslugi);
+                ActiveAudit.CheckGrid(grdFiles);
             }
         }
 
@@ -206,5 +236,97 @@ namespace Gaudit
             panel1.Top = (this.ClientSize.Height - panel1.Height) / 2;
         }
 
+        private void btnFiles_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+
+            try
+            {
+                string[] cliparr = ActiveAudit.GetClipBoard("//my.dom.gosuslugi.ru/organization-cabinet/#!/agreements/contract/view/");
+
+                if (cliparr == null) return;
+
+                //var beg = cliparr.Select((string str, int i) => new { data = str, idx = i }).Where(s => s.data == "Договор управления и приложения").FirstOrDefault();
+
+                int skip = 0;
+                string[] z;
+
+
+                cliparr = cliparr.Where(
+                s => (!s.Contains("Прикрепленные файлы") &
+                      !s.Contains("Прикрепленные протоколы")) &
+                (
+                s.ToLower().Contains(".pdf") |
+                s.ToLower().Contains(".doc") |
+                s.ToLower().Contains(".docx") |
+                s.ToLower().Contains(".xls") |
+                s.ToLower().Contains(".xlsx") |
+                s.ToLower().Contains(".tif") |
+                s.Contains("Прикреплен")
+                )
+                ).ToArray();
+
+                if (cliparr.Count() % 2 != 0)
+                {
+                    MessageBox.Show("Не удалось выделить список файлов");
+                    return;
+                }
+
+                while ((z = cliparr.Skip(skip).Take(2).ToArray()).Count() != 0)
+                {
+                    skip += 2;
+
+                    dogUprFilesAdapter.Insert(
+                        this.currDogID,
+                        ActiveAudit.ID,
+                        ActiveAudit.ID_Company,
+                        z[0],
+                        z[1].Split(' ')[1]
+                        );
+                }
+
+                grdFiles.DataSource = dogUprFilesAdapter.GetDataByActiveDog(ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+                Clipboard.Clear();
+
+                ActiveAudit.CheckGrid(grdFiles);
+            }
+
+        }
+
+        private void btnDelObj_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Удалить комм. и доп. услуги?",
+                                             "Коммунальные и дополнительные услуги",
+                                              MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                dogUprUslAdapter.DeleteByActiveDog(this.currDogID);
+                grdUslugi.DataSource = dogUprUslAdapter.GetDataByDogovor(ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
+                
+                ActiveAudit.CheckGrid(grdUslugi);
+                
+            }
+        }
+
+        private void btnDelFiles_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Удалить прикрепленные файлы?",
+                                             "Прикрепленные файлы",
+                                              MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                dogUprFilesAdapter.DeleteByActiveDog(this.currDogID);
+                grdFiles.DataSource = dogUprFilesAdapter.GetDataByActiveDog(ActiveAudit.ID, ActiveAudit.ID_Company, this.currDogID);
+
+                ActiveAudit.CheckGrid(grdFiles);
+            }
+        }
     }
 }

@@ -136,12 +136,13 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdLicSchet);
             }
         }
 
         private void LicSchet_Load(object sender, EventArgs e)
         {
-            licSchetAdapter.FillByActiveAudit(ds.LicSchet, ActiveAudit.ID, ActiveAudit.ID_Company);
+            //licSchetAdapter.FillByActiveAudit(ds.LicSchet, ActiveAudit.ID, ActiveAudit.ID_Company);
             grdLicSchet.DataSource = licSchetAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
 
             grdLicSchet.Columns[0].Visible = false;
@@ -155,6 +156,8 @@ namespace Gaudit
             grdLicSchet.Columns[7].Width = grdLicSchet.Width / 8;
             grdLicSchet.Columns[8].Width = grdLicSchet.Width / 8;
             grdLicSchet.Columns[9].Width = grdLicSchet.Width / 8;
+
+            ActiveAudit.CheckGrid(grdLicSchet);
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -167,8 +170,10 @@ namespace Gaudit
                 {
                     licSchetAdapter.DeleteQueryCurrents(ActiveAudit.ID, ActiveAudit.ID_Company);
 
-                    licSchetAdapter.FillByActiveAudit(ds.LicSchet, ActiveAudit.ID, ActiveAudit.ID_Company);
+                    //licSchetAdapter.FillByActiveAudit(ds.LicSchet, ActiveAudit.ID, ActiveAudit.ID_Company);
                     grdLicSchet.DataSource = licSchetAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                    ActiveAudit.CheckGrid(grdLicSchet);
                 }
             }
         }

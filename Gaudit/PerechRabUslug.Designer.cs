@@ -44,6 +44,8 @@
             // 
             // grdPerRabUsl
             // 
+            this.grdPerRabUsl.AllowUserToAddRows = false;
+            this.grdPerRabUsl.AllowUserToDeleteRows = false;
             this.grdPerRabUsl.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.grdPerRabUsl.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdPerRabUsl.Location = new System.Drawing.Point(6, 100);
@@ -54,6 +56,8 @@
             // 
             // grdPerRabUslDetals
             // 
+            this.grdPerRabUslDetals.AllowUserToAddRows = false;
+            this.grdPerRabUslDetals.AllowUserToDeleteRows = false;
             this.grdPerRabUslDetals.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.grdPerRabUslDetals.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdPerRabUslDetals.Location = new System.Drawing.Point(6, 281);

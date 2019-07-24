@@ -94,13 +94,17 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdVoting);
             }
         }
 
         private void Voting_Load(object sender, EventArgs e)
         {
-            votingAdapter.FillByActiveAudit(ds.Voting, ActiveAudit.ID, ActiveAudit.ID_Company);
+            //votingAdapter.FillByActiveAudit(ds.Voting, ActiveAudit.ID, ActiveAudit.ID_Company);
             grdVoting.DataSource = votingAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+            ActiveAudit.CheckGrid(grdVoting);
+
 
             grdVoting.Columns[0].Visible = false;
             grdVoting.Columns[1].Visible = false;
@@ -127,6 +131,8 @@ namespace Gaudit
 
                     votingAdapter.FillByActiveAudit(ds.Voting, ActiveAudit.ID, ActiveAudit.ID_Company);
                     grdVoting.DataSource = votingAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                    ActiveAudit.CheckGrid(grdVoting);
                 }
             }
         }

@@ -64,13 +64,16 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+
+                ActiveAudit.CheckGrid(grdWorkServ);
             }
         }
 
         private void DictWorkService_Load(object sender, EventArgs e)
         {
-            dictWorkServAdapter.FillByActiveAudit(ds.DictWorkService, ActiveAudit.ID, ActiveAudit.ID_Company); //??
+            //dictWorkServAdapter.FillByActiveAudit(ds.DictWorkService, ActiveAudit.ID, ActiveAudit.ID_Company); //??
             grdWorkServ.DataSource = dictWorkServAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+            ActiveAudit.CheckGrid(grdWorkServ);
 
             grdWorkServ.Columns[0].Visible = false;
             grdWorkServ.Columns[1].Visible = false;
@@ -89,6 +92,8 @@ namespace Gaudit
             {
                 dictWorkServAdapter.DeleteByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
                 grdWorkServ.DataSource = dictWorkServAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                ActiveAudit.CheckGrid(grdWorkServ);
             }
         }
 

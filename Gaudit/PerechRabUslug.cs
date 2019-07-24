@@ -96,16 +96,21 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+
+                ActiveAudit.CheckGrid(grdPerRabUsl);
             }
         }
 
         private void PerechRabUslug_Load(object sender, EventArgs e)
         {
-            pereschRabUslAdapter.FillByActiveAudit(ds.PerechRabUslug, ActiveAudit.ID, ActiveAudit.ID_Company);
-            perechRabUslDetailsAdapter.FillBySelectedRabUsl(ds.PerechRabUslugDetails, this.currPerechID, ActiveAudit.ID, ActiveAudit.ID_Company);
+            //pereschRabUslAdapter.FillByActiveAudit(ds.PerechRabUslug, ActiveAudit.ID, ActiveAudit.ID_Company);
+            //perechRabUslDetailsAdapter.FillBySelectedRabUsl(ds.PerechRabUslugDetails, this.currPerechID, ActiveAudit.ID, ActiveAudit.ID_Company);
 
             grdPerRabUsl.DataSource = pereschRabUslAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company); //???
             grdPerRabUslDetals.DataSource = perechRabUslDetailsAdapter.GetDataBySelectedRabUsl(this.currPerechID, ActiveAudit.ID, ActiveAudit.ID_Company); //???
+
+            ActiveAudit.CheckGrid(grdPerRabUsl);
+            ActiveAudit.CheckGrid(grdPerRabUslDetals);
 
             grdPerRabUsl.Columns[0].Visible = false;
             grdPerRabUsl.Columns[1].Visible = false;
@@ -154,7 +159,9 @@ namespace Gaudit
                 this.currPerechID = (int)grdPerRabUsl.CurrentRow.Cells[0].Value;
                 label1.Text = this.currPerechID.ToString();
 
-                grdPerRabUslDetals.DataSource = perechRabUslDetailsAdapter.GetDataBySelectedRabUsl(this.currPerechID, ActiveAudit.ID, ActiveAudit.ID_Company); 
+                grdPerRabUslDetals.DataSource = perechRabUslDetailsAdapter.GetDataBySelectedRabUsl(this.currPerechID, ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                ActiveAudit.CheckGrid(grdPerRabUslDetals);
             }
         }
 
@@ -204,6 +211,7 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdPerRabUslDetals);
             }
         }
 
@@ -217,11 +225,14 @@ namespace Gaudit
                 {
                     pereschRabUslAdapter.DeleteCurrentsPerech(ActiveAudit.ID, ActiveAudit.ID_Company);
 
-                    pereschRabUslAdapter.FillByActiveAudit(ds.PerechRabUslug, ActiveAudit.ID, ActiveAudit.ID_Company);
+                    //pereschRabUslAdapter.FillByActiveAudit(ds.PerechRabUslug, ActiveAudit.ID, ActiveAudit.ID_Company);
                     grdPerRabUsl.DataSource = pereschRabUslAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
 
-                    perechRabUslDetailsAdapter.FillBySelectedRabUsl(ds.PerechRabUslugDetails, this.currPerechID, ActiveAudit.ID, ActiveAudit.ID_Company);
+                   // perechRabUslDetailsAdapter.FillBySelectedRabUsl(ds.PerechRabUslugDetails, this.currPerechID, ActiveAudit.ID, ActiveAudit.ID_Company);
                     grdPerRabUslDetals.DataSource = perechRabUslDetailsAdapter.GetDataBySelectedRabUsl(this.currPerechID, ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                    ActiveAudit.CheckGrid(grdPerRabUsl);
+                    ActiveAudit.CheckGrid(grdPerRabUslDetals);
                 }
             }
         }

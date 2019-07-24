@@ -75,6 +75,10 @@ namespace Gaudit
             {
                 Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+
+                ActiveAudit.CheckGrid(grdUstav);
+                ActiveAudit.CheckGrid(grdHouse);
+                ActiveAudit.CheckGrid(grdUslugi);
             }
         }
 
@@ -83,6 +87,10 @@ namespace Gaudit
             grdUstav.DataSource = ustavAdapter.GetDataByCurrentAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
             grdHouse.DataSource = ustavHouseAdapter.GetDataByCurrentUstav(this.currUstavId);
             grdUslugi.DataSource = ustavUslugiAdapter.GetDataByCurrentHouse(this.currHouseId);
+
+            ActiveAudit.CheckGrid(grdUstav);
+            ActiveAudit.CheckGrid(grdHouse);
+            ActiveAudit.CheckGrid(grdUslugi);
 
             grdUstav.Columns[0].Visible = false;
             grdUstav.Columns[1].Visible = false;
@@ -120,6 +128,11 @@ namespace Gaudit
             {
                 this.currUstavId = (int)grdUstav.CurrentRow.Cells[0].Value;
                 grdHouse.DataSource = ustavHouseAdapter.GetDataByCurrentUstav(this.currUstavId);
+
+                ActiveAudit.CheckGrid(grdUstav);
+                ActiveAudit.CheckGrid(grdHouse);
+                ActiveAudit.CheckGrid(grdUslugi);
+
             }
         }
         private void grdHouse_SelectionChanged(object sender, EventArgs e)
@@ -128,6 +141,10 @@ namespace Gaudit
             {
                 this.currHouseId = (int)grdHouse.CurrentRow.Cells[0].Value;
                 grdUslugi.DataSource = ustavUslugiAdapter.GetDataByCurrentHouse(this.currHouseId);
+
+                ActiveAudit.CheckGrid(grdUstav);
+                ActiveAudit.CheckGrid(grdHouse);
+                ActiveAudit.CheckGrid(grdUslugi);
             }
         }
 
@@ -141,6 +158,11 @@ namespace Gaudit
                 {
                     ustavAdapter.DeleteCurrentUstav(this.currUstavId);
                     grdUstav.DataSource = ustavAdapter.GetDataByCurrentAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
+
+                    ActiveAudit.CheckGrid(grdUstav);
+                    ActiveAudit.CheckGrid(grdHouse);
+                    ActiveAudit.CheckGrid(grdUslugi);
+
                 }
                 //grdLicense.DataSource = licenseAdapter.GetDataByActiveAudit(ActiveAudit.ID, ActiveAudit.ID_Company);
                 //grdLicHouses.DataSource = licenseHousesAdapter.GetDataByCurrentLicense(currID, ActiveAudit.ID, ActiveAudit.ID_Company);
@@ -226,6 +248,7 @@ namespace Gaudit
 
                 grdHouse.Rows[0].Selected = true;
                 grdUslugi.DataSource = ustavUslugiAdapter.GetDataByCurrentHouse((int)grdHouse.Rows[0].Cells[0].Value);
+
             }
             catch (Exception ex)
             {
@@ -233,7 +256,11 @@ namespace Gaudit
             }
             finally
             {
+                Clipboard.Clear();
                 Cursor.Current = Cursors.Default;
+                ActiveAudit.CheckGrid(grdUstav);
+                ActiveAudit.CheckGrid(grdHouse);
+                ActiveAudit.CheckGrid(grdUslugi);
             }
         }
 

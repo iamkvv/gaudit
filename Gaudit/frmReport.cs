@@ -23,8 +23,10 @@ namespace Gaudit
         private void frmReport_Load(object sender, EventArgs e)
         {
             repViewer.LocalReport.DataSources.Clear();
-            BindingSource bs = new BindingSource();
-            bs.DataSource = repData;
+            BindingSource bs = new BindingSource
+            {
+                DataSource = repData
+            };
    
             repViewer.LocalReport.ReportEmbeddedResource = "Gaudit.GReport.rdlc";
             repViewer.LocalReport.DataSources.Add(new Microsoft.Reporting.WinForms.ReportDataSource("Myreport", bs));
